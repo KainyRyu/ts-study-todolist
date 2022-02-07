@@ -8,7 +8,9 @@ import {
 } from '../../lib/storage';
 import FinishBtn from '../../components/Table/FinishBtn';
 
-const INIT_TODO_LIST = [
+type Todo = { id: number; title: string; createdAt: string };
+
+const INIT_TODO_LIST: Todo[] = [
   { id: 0, title: '출근 하기', createdAt: '2022-01-01 00:00:01' },
   { id: 1, title: '퇴근 하기', createdAt: '2022-01-01 00:00:01' }
 ];
@@ -24,7 +26,8 @@ function Todo() {
   //할 일 등록
   const handleTodoSubmit = event => {
     event.preventDefault();
-    const title = inputRef.current.value;
+    console.log(event);
+    const title: string = inputRef.current.value;
     const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
     setTodoList(prev => [...prev, { id: todoList.length, title, createdAt }]);
@@ -36,7 +39,8 @@ function Todo() {
     setTodoList(prev =>
       prev
         .filter(item => item.id !== id)
-        .map((item, idx) => {
+        .map((item, idx: number) => {
+          console.log('item', item);
           item.id = idx;
           return item;
         })
@@ -48,8 +52,8 @@ function Todo() {
     event.preventDefault();
     setTodoList(prev =>
       prev
-        .filter(item => !selectedRowKeys.includes(item.id))
-        .map((item, idx) => {
+        .filter((item: Todo) => !selectedRowKeys.includes(item.id))
+        .map((item: Todo, idx: number) => {
           item.id = idx;
           return item;
         })
@@ -65,11 +69,12 @@ function Todo() {
   };
 
   // 선택
-  const handleCheckboxClick = id => {
+  const handleCheckboxClick = (id: number) => {
     if (selectedRowKeys.includes(id)) {
+      console.log(id);
       setSelectedRows(prev => prev.filter(val => val !== id));
     } else {
-      setSelectedRows(prev => [...prev, id].sort((a, b) => a - b));
+      setSelectedRows((prev?: [number]) => [...prev, id].sort((a, b) => a - b));
     }
   };
 
@@ -77,7 +82,8 @@ function Todo() {
   const handleAllCheckBoxClick = event => {
     const { checked } = event.target;
     if (checked) {
-      setSelectedRows(todoList.map(todo => todo.id));
+      setSelectedRows(todoList.map((todo: Todo) => todo.id));
+      console.log(todoList);
     } else {
       setSelectedRows([]);
     }
@@ -106,7 +112,7 @@ function Todo() {
       ),
       dataIndex: 'id',
       align: 'center',
-      render: id => (
+      render: (id: number) => (
         <input
           type="checkbox"
           checked={selectedRowKeys.includes(id)}
@@ -135,7 +141,7 @@ function Todo() {
       title: '삭제',
       dataIndex: 'id',
       align: 'center',
-      render: id => {
+      render: (id: number) => {
         return (
           <button
             className="p-1 text-red-500 border border-solid border-red-600"
