@@ -1,0 +1,13 @@
+/* global css */
+
+@import 'pre-antd.css';
+/* antd ----- */
+@import 'antd/dist/antd.css';
+
+/* @import '~antd/dist/antd.dark.css'; */
+/* @import '~antd/dist/antd.compact.css'; */
+
+/* customize antd ----- */
+.ant-layout-sider-light .ant-layout-sider-trigger {
+  background-color: #eaeaea;
+}
